@@ -1,2 +1,2 @@
 # Movie-recommendation-sytem
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![website image](https://github.com/abhishekvardhan/movie-recommendation-sytem/blob/main/Capture.PNG?raw=true)
