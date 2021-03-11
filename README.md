@@ -1,2 +1,2 @@
 # Movie-recommendation-sytem
-![plot](.)
+![plot](.Capture.png)
