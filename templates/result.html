@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main.css') }}">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+    crossorigin="anonymous"></script>
+  <title>Movie Recommendation Sytem</title>
+</head>
+<style>
+  div.result {
+    padding: 20px;
+    border-style: solid;
+    border-width: 5px;
+    border-color: gray;
+    border-radius: 20px;
+    margin-right: 5cm;
+    margin-left: 5cm;
+    overflow: hidden;
+  }
+
+  .card {
+    padding: 9px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    width: 85%;
+    height: 98%;
+    color: black;
+    background-color: rgb(187, 176, 176);
+  }
+
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    background-color: black;
+    width: 90%;
+    height: 100%;
+    color: white;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 16px;
+  }
+
+  .container {
+    padding: 2px 16px;
+  }
+
+  .middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: relative;
+    left: 50%;
+    transform: translateX(-15%);
+    display: none;
+  }
+
+  .card:hover .middle {
+    opacity: 1;
+    display: block;
+  }
+
+  .card:hover .container {
+    display: none;
+  }
+
+  .card:hover .image {
+    opacity: 0.5;
+  }
+
+  .butt {
+    color: black;
+    background-color: rgb(214, 0, 0);
+    text-align: center;
+    width: 50%;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  .cardcast {
+    padding: 9px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    width: 85%;
+    height: 98%;
+    color: black;
+    background-color: rgb(187, 176, 176);
+    border-radius: 8%;
+  }
+
+  .cardcast:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    background-color: black;
+    width: 90%;
+    height: 100%;
+    color: white;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 16px;
+  }
+
+  .cardcast:hover .image {
+    opacity: 0.5;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+
+  /* Float four columns side by side */
+  .column {
+    float: left;
+    width: 20%;
+    padding: 0 10px;
+  }
+
+  .columnCa {
+    float: none;
+    width: 25%;
+    padding: 10px 25px;
+    display: flex;
+    justify-content: center;
+    margin: top 25px;
+    margin-left: 70px;
+  }
+
+  /* Remove extra left and right margins, due to padding */
+  .row {
+    margin: 0 -5px;
+  }
+
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  /* Responsive columns */
+  @media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .columnCA {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+
+  @media screenCb and (max-width: 600px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+
+  .castmod {
+    border: 3px solid black;
+    background-color: black;
+    color: white;
+    overflow: hidden;
+  }
+
+  .namecast {
+    color: red;
+    font: Courier New;
+  }
+
+  .imagecast {
+    float: left;
+    width: 45%;
+    padding: 12%;
+  }
+
+  .textareacast {
+    margin-top: 3%;
+    margin-bottom: 3%;
+    float: left;
+    width: 40%
+  }
+
+  
+</style>
+
+<body>
+  <img src="static/pop.gif" alt="gif" class="imgif"id="gif">
+  <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+  <div class="collapse" id="navbarToggleExternalContent">
+    <div class="bg-dark p-4">
+      <h5 style="opacity:1;">t</h5>
+      <span class="text-muted"></span>
+    </div>
+  </div>
+  <nav class="navbar navbar-dark bg-dark" style="opacity:0.3">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false"
+        aria-label="Toggle navigation" style="color:white" role="button">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+  <div class="textbox" id="input-area">
+    <form action="/predict" method='POST'>
+      <input type="search" name="movie_name" id="movie_name" placeholder="Search for a movie" size=45
+        style="font-size:20px; color:black; opacity:0.8 ;border:0">
+      <input type="submit" id="search" value="Search" style="color:gray">
+    </form>
+  </div>
+  <br><br><br>
+  <div class="result" style="color:aliceblue" id="details">
+    <img src="{{ url_for('static',filename=data['d1']['poster']) }}" alt="poster"
+      style="width:280px;height:420px;float:left;padding:25px;margin-left:85px;margin-right:15px">
+    <br><br>
+    <h1 style="color:white;font-family:Monaco;text-align:left;"><strong>{{data['d1']['title']}}</strong></h1><br>
+    <h6 style="color:white;font-family:Monaco;text-align:left;">Directed by : {{data['d1']['director']}} <svg
+        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bullseye"
+        viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+        <path d="M8 13A5 5 0 1 1 8 3a5 5 0 0 1 0 10zm0 1A6 6 0 1 0 8 2a6 6 0 0 0 0 12z" />
+        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" />
+        <path d="M9.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+      </svg> Runtime :{{data['d1']['runtime']}} <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+        fill="currentColor" class="bi bi-bullseye" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+        <path d="M8 13A5 5 0 1 1 8 3a5 5 0 0 1 0 10zm0 1A6 6 0 1 0 8 2a6 6 0 0 0 0 12z" />
+        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" />
+        <path d="M9.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+      </svg> Rating : {{data['d1']['vote_average']}} ({{data['vote_count']}})</h6><br>
+    <p style="color:rgb(238, 61, 61);text-align:left;">{{data['d1']['desc']}}</p>
+    <p style="color:rgb(207, 207, 154);text-align:left;">Original Language : {{data['d1']['lang']}}</p>
+    <p style="color:rgb(207, 207, 154);text-align:left;">Release Date : {{data['d1']['release_date']}}</p>
+    <p style="color:rgb(207, 207, 154);text-align:left;"> Production Company : {{data['d1']['production_comp']}}</p>
+  </div>
+  <br>
+  <br>
+  <div class="result" id="castfo">
+    <h2 style="text-align:left;color:gray;"><strong>Cast</strong></h2><br><br>
+    <div class="row">
+      <div class="columnCa">
+        <div class="cardcast" id="cst1">
+          <img src="{{ url_for('static',filename=data['d2'][0]['poster_p'])}}" alt="Avatar" class="image"
+            style="width:100%;"><br>
+          <div class="container">
+            <h4 id="c9"><b>{{data['d2'][0]['name']}}</b></h4>
+            <p>As {{data['d2'][0]['character']}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="columnCa" id="cst2">
+        <div class="cardcast">
+          <img src="{{ url_for('static',filename=data['d2'][1]['poster_p'])}}" alt="Avatar" class="image"
+            style="width:100%;"><br>
+          <div class="container">
+            <h4 id="c9"><b>{{data['d2'][1]['name']}}</b></h4>
+            <p>As {{data['d2'][1]['character']}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="columnCa">
+        <div class="cardcast" id="cst3">
+          <img src="{{ url_for('static',filename=data['d2'][2]['poster_p'])}}" alt="Avatar" class="image"
+            style="width:100%;"><br>
+          <div class="container">
+            <h4 id="c9"><b>{{data['d2'][2]['name']}}</b></h4>
+            <p>As {{data['d2'][2]['character']}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="columnCa">
+        <div class="cardcast" id="cst4">
+          <img src="{{ url_for('static',filename=data['d2'][3]['poster_p'])}}" alt="Avatar" class="image"
+            style="width:100%;"><br>
+          <div class="container">
+            <h4 id="c9"><b>{{data['d2'][3]['name']}}</b></h4>
+            <p>As {{data['d2'][3]['character']}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="columnCa">
+        <div class="cardcast" id="cst5">
+          <img src="{{ url_for('static',filename=data['d2'][4]['poster_p'])}}" alt="Avatar" class="image"
+            style="width:100%;"><br>
+          <div class="container">
+            <h4 id="c9"><b>{{data['d2'][4]['name']}}</b></h4>
+            <p>As {{data['d2'][4]['character']}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="columnCa">
+        <div class="cardcast" id="cst6">
+          <img src="{{ url_for('static',filename=data['d2'][5]['poster_p'])}}" alt="Avatar" class="image"
+            style="width:100%;"><br>
+          <div class="container">
+            <h4 id="c9"><b>{{data['d2'][5]['name']}}</b></h4>
+            <p>As {{data['d2'][5]['character']}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <br> <br>
+  <div class="result" id="recos">
+    <h2 style="text-align:left;color:gray;"><strong>Recommendations</strong></h2><br><br>
+    <div class="row">
+      <div class="column">
+        <div class="card">
+          <img src="{{ url_for('static',filename=data['d3'][l[0]]['poster_p'])}}" alt="Avatar" class="image"
+            style="width:100%;"><br>
+          <div class="middle">
+            <div class="btn btn-outline-danger" id="btn0" )>Explore</div>
+          </div>
+          <div class="container">
+            <h4 id="c0"><b>{{data['d3'][l[0]]['title']}}</b></h4>
+            <p>{{data['d3'][l[0]]['rating']}} ( {{data['d3'][l[0]]['vote_count']}} ) </p>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="card">
+          <img src="{{ url_for('static',filename=data['d3'][l[1]]['poster_p'])}}" alt="Avatar" class="image"
+            style="width:100%;"><br>
+          <div class="middle">
+            <div class="btn btn-outline-danger" id="btn1">Explore</div>
+          </div>
+          <div class="container">
+            <h4 id="c1"><b>{{data['d3'][l[1]]['title']}}</b></h4>
+            <p>{{data['d3'][l[1]]['rating']}} ( {{data['d3'][l[1]]['vote_count']}} )</p>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="card">
+          <img src="{{ url_for('static',filename=data['d3'][l[2]]['poster_p'])}}" alt="Avatar" class="image"
+            style="width:100%;"><br>
+          <div class="middle">
+            <div class="btn btn-outline-danger" id="btn2">Explore</div>
+          </div>
+          <div class="container">
+            <h4 id="c2"><b>{{data['d3'][l[2]]['title']}}</b></h4>
+            <p>{{data['d3'][l[2]]['rating']}} ( {{data['d3'][l[2]]['vote_count']}} )</p>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="card">
+          <img src="{{ url_for('static',filename=data['d3'][l[3]]['poster_p'])}}" alt="Avatar" class="image"
+            style="width:100%;"><br>
+          <div class="middle">
+            <div class="btn btn-outline-danger" id="btn3">Explore</div>
+          </div>
+          <div class="container">
+            <h4 id="c3"><b>{{data['d3'][l[3]]['title']}}</b></h4>
+            <p>{{data['d3'][l[3]]['rating']}} ( {{data['d3'][l[3]]['vote_count']}} ) </p>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="card">
+          <img src="{{ url_for('static',filename=data['d3'][l[4]]['poster_p'])}}" alt="Avatar" class="image"
+            style="width:100%;"><br>
+          <div class="middle">
+            <div class="btn btn-outline-danger" id="btn4">Explore</div>
+          </div>
+          <div class="container">
+            <h4 id="c4"><b>{{data['d3'][l[4]]['title']}}</b></h4>
+            <p>{{data['d3'][l[4]]['rating']}} ( {{data['d3'][l[4]]['vote_count']}} ) </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br><br>
+    <div class="row">
+      <div class="column">
+        <div class="card">
+          <img src="{{ url_for('static',filename=data['d3'][l[5]]['poster_p'])}}" alt="Avatar" class="image"
+            style="width:100%;"><br>
+          <div class="middle">
+            <div class="btn btn-outline-danger" id="btn5">Explore</div>
+          </div>
+          <div class="container">
+            <h4 id="c5"><b>{{data['d3'][l[5]]['title']}}</b></h4>
+            <p>{{data['d3'][l[5]]['rating']}} ( {{data['d3'][l[5]]['vote_count']}} ) </p>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="card">
+          <img src="{{ url_for('static',filename=data['d3'][l[6]]['poster_p'])}}" alt="Avatar" class="image"
+            style="width:100%;"><br>
+          <div class="middle">
+            <div class="btn btn-outline-danger" id="btn6">Explore</div>
+          </div>
+          <div class="container">
+            <h4 id="c6"><b>{{data['d3'][l[6]]['title']}}</b></h4>
+            <p>{{data['d3'][l[6]]['rating']}} ( {{data['d3'][l[6]]['vote_count']}} ) </p>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="card">
+          <img src="{{ url_for('static',filename=data['d3'][l[7]]['poster_p'])}}" alt="Avatar" class="image"
+            style="width:100%;"><br>
+          <div class="middle">
+            <div class="btn btn-outline-danger" id="btn7">Explore</div>
+          </div>
+          <div class="container">
+            <h4 id="c7"><b>{{data['d3'][l[7]]['title']}}</b></h4>
+            <p>{{data['d3'][l[7]]['rating']}} ( {{data['d3'][l[7]]['vote_count']}} )</p>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="card">
+          <img src="{{ url_for('static',filename=data['d3'][l[8]]['poster_p'])}}" alt="Avatar" class="image"
+            style="width:100%;"><br>
+          <div class="middle">
+            <div class="btn btn-outline-danger" id="btn8">Explore</div>
+          </div>
+          <div class="container">
+            <h4 id="c8"><b>{{data['d3'][l[8]]['title']}}</b></h4>
+            <p>{{data['d3'][l[8]]['rating']}} ( {{data['d3'][l[8]]['vote_count']}} )</p>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="card">
+          <img src="{{ url_for('static',filename=data['d3'][l[9]]['poster_p'])}}" alt="Avatar" class="image"
+            style="width:100%;"><br>
+          <div class="middle">
+            <div class="btn btn-outline-danger" id="btn9">Explore</div>
+          </div>
+          <div class="container">
+            <h4 id="c9"><b>{{data['d3'][l[9]]['title']}}</b></h4>
+            <p>{{data['d3'][l[9]]['rating']}} ( {{data['d3'][l[9]]['vote_count']}} )</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><br><br>
+  <div class="result" id="senti">
+    <table class="table table-success table-striped">
+      <th>
+        Author
+      </th>
+      <th>
+        Review
+      </th>
+      <th>
+        Result
+      </th>
+      {% for i in range((data['d4'])|length) %}
+      <tr>
+        <td>
+          {{data['d4'][i]['author']}}
+        </td>
+        <td>
+          {{data['d4'][i]['review']}}
+        </td>
+        <td>
+          {{data['d4'][i]['prediction']}}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  </div>
+  <div id="modal01" class="w3-modal" onclick="this.style.display='none'">
+    <span class="w3-button w3-hover-red w3-xlarge w3-display-topright">&times;</span>
+    <div class="w3-modal-content w3-animate-zoom">
+      <div class="castmod">
+        <img src="{{ url_for('static',filename=data['d2'][0]['poster_p'])}}" id="cast_phot" alt="hello"
+          class="imagecast">
+        <div class="textareacast" style="overflow:hidden">
+          <h1 class="namecast" id="cname">
+          </h1> <br><br>
+          <h4 class="namecast" style="color:yellow" id="birth">
+          </h4><br>
+          <h6 class="nameclass" style="color:yellow" id="gender">
+          </h6><br>
+          <p class="namecast" style="color:white" id="cstdesc">
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById("search").onclick = function () {
+    document.getElementById("input-area").style.display = "none";
+    document.getElementById("details").style.display = "none";
+    document.getElementById("castfo").style.display = "none";
+    document.getElementById("recos").style.display = "none";
+    document.getElementById("senti").style.display = "none";
+    document.getElementById("gif").style.display = "block";
+    }
+    document.getElementById("btn0").onclick = function () { b0() };
+    document.getElementById("btn1").onclick = function () { b1() };
+    document.getElementById("btn2").onclick = function () { b2() };
+    document.getElementById("btn3").onclick = function () { b3() };
+    document.getElementById("btn4").onclick = function () { b4() };
+    document.getElementById("btn5").onclick = function () { b5() };
+    document.getElementById("btn6").onclick = function () { b6() };
+    document.getElementById("btn7").onclick = function () { b7() };
+    document.getElementById("btn8").onclick = function () { b8() };
+    document.getElementById("btn9").onclick = function () { b9() };
+    document.getElementById("cst1").onclick = function () { m1() };
+    document.getElementById("cst2").onclick = function () { m2() };
+    document.getElementById("cst3").onclick = function () { m3() };
+    document.getElementById("cst4").onclick = function () { m4() };
+    document.getElementById("cst5").onclick = function () { m5() };
+    document.getElementById("cst6").onclick = function () { m6() };
+    function b0() {
+      {
+        var d = '{{data['d3'][l[0]]['title']}}';
+        document.getElementById("movie_name").value = d;
+        document.getElementById("search").click();
+      }
+    }
+    function b1() {
+      {
+        var d = '{{data['d3'][l[1]]['title']}}';
+        document.getElementById("movie_name").value = d;
+        document.getElementById("search").click();
+      }
+    }
+    function b2() {
+      {
+        var d = '{{data['d3'][l[2]]['title']}}';
+        document.getElementById("movie_name").value = d;
+        document.getElementById("search").click();
+      }
+    }
+    function b3() {
+      {
+        var d = '{{data['d3'][l[3]]['title']}}';
+        document.getElementById("movie_name").value = d;
+        document.getElementById("search").click();
+      }
+    }
+    function b4() {
+      {
+        var d = '{{data['d3'][l[4]]['title']}}';
+        document.getElementById("movie_name").value = d;
+        document.getElementById("search").click();
+      }
+    }
+    function b5() {
+      {
+        var d = '{{data['d3'][l[5]]['title']}}';
+        document.getElementById("movie_name").value = d;
+        document.getElementById("search").click();
+      }
+    }
+    function b6() {
+      {
+        var d = '{{data['d3'][l[6]]['title']}}';
+        document.getElementById("movie_name").value = d;
+        document.getElementById("search").click();
+      }
+    }
+    function b7() {
+      {
+        var d = '{{data['d3'][l[7]]['title']}}';
+        document.getElementById("movie_name").value = d;
+        document.getElementById("search").click();
+      }
+    }
+    function b8() {
+      {
+        var d = '{{data['d3'][l[8]]['title']}}';
+        document.getElementById("movie_name").value = d;
+        document.getElementById("search").click();
+      }
+    }
+    function b9() {
+      {
+        var d = '{{data['d3'][l[9]]['title']}}';
+        document.getElementById("movie_name").value = d;
+        document.getElementById("search").click();
+      }
+    }
+    function m1() {
+      document.getElementById("cname").innerHTML = '{{data['d2'][0]['name']}}';
+      document.getElementById("birth").innerHTML = '{{data['d2'][0]['dob']}}';
+      document.getElementById("gender").innerHTML = '{{data['d2'][0]['gender']}}';
+      document.getElementById("cstdesc").innerHTML = '{{data['d2'][0]['bio']}}';
+      document.getElementById("cast_phot").src = '{{ url_for('static',filename=data['d2'][0]['poster_p'])}}';
+      document.getElementById("modal01").style.display = 'block';
+    }
+    function m2() {
+      document.getElementById("cname").innerHTML = '{{data['d2'][1]['name']}}';
+      document.getElementById("birth").innerHTML = '{{data['d2'][1]['dob']}}';
+      document.getElementById("gender").innerHTML = '{{data['d2'][1]['gender']}}';
+      document.getElementById("cstdesc").innerHTML = '{{data['d2'][1]['bio']}}';
+      document.getElementById("cast_phot").src = '{{ url_for('static',filename=data['d2'][1]['poster_p'])}}';
+      document.getElementById("modal01").style.display = 'block';
+    }
+    function m3() {
+      document.getElementById("cname").innerHTML = '{{data['d2'][2]['name']}}';
+      document.getElementById("birth").innerHTML = '{{data['d2'][2]['dob']}}';
+      document.getElementById("gender").innerHTML = '{{data['d2'][2]['gender']}}';
+      document.getElementById("cstdesc").innerHTML = '{{data['d2'][2]['bio']}}';
+      document.getElementById("cast_phot").src = '{{ url_for('static',filename=data['d2'][2]['poster_p'])}}';
+      document.getElementById("modal01").style.display = 'block';
+    }
+    function m4() {
+      document.getElementById("cname").innerHTML = '{{data['d2'][3]['name']}}';
+      document.getElementById("birth").innerHTML = '{{data['d2'][3]['dob']}}';
+      document.getElementById("gender").innerHTML = '{{data['d2'][3]['gender']}}';
+      document.getElementById("cstdesc").innerHTML = '{{data['d2'][3]['bio']}}';
+      document.getElementById("cast_phot").src = '{{ url_for('static',filename=data['d2'][3]['poster_p'])}}';
+      document.getElementById("modal01").style.display = 'block';
+    }
+    function m5() {
+      document.getElementById("cname").innerHTML = '{{data['d2'][4]['name']}}';
+      document.getElementById("birth").innerHTML = '{{data['d2'][4]['dob']}}';
+      document.getElementById("gender").innerHTML = '{{data['d2'][4]['gender']}}';
+      document.getElementById("cstdesc").innerHTML = '{{data['d2'][4]['bio']}}';
+      document.getElementById("cast_phot").src = '{{ url_for('static',filename=data['d2'][4]['poster_p'])}}';
+      document.getElementById("modal01").style.display = 'block';
+    }
+    function m6() {
+      document.getElementById("cname").innerHTML = '{{data['d2'][5]['name']}}';
+      document.getElementById("birth").innerHTML = "{{data['d2'][5]['dob']}}";
+      document.getElementById("gender").innerHTML = '{{data['d2'][5]['gender']}}';
+      document.getElementById("cstdesc").innerHTML = "{{data['d2'][5]['bio']}}";
+      document.getElementById("cast_phot").src = "{{ url_for('static',filename=data['d2'][5]['poster_p'])}}";
+      document.getElementById("modal01").style.display = 'block';
+    }
+
+  </script>
+
+</html>
