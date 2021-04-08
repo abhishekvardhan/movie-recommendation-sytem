@@ -8,7 +8,7 @@ import requests
 import joblib
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-api_key='your_api'
+api_key='ef83cac599a8b6b59be433cffe4aa715'
 url='https://api.themoviedb.org/3/search/movie?api_key=' +api_key+ '&query='
 poster_url='https://image.tmdb.org/t/p/original'
 app=Flask(__name__)
@@ -52,11 +52,12 @@ def get_data(m):
             k[i]=l
         return k
     if type(m)==str:
-        df=pd.read_csv("temp.csv") 
+        df=pd.read_csv("temp1.csv") 
         a=df[df['Title']==m].values.tolist()
         c=df.columns
         c=np.column_stack((c,a[0])).tolist()
         del(c[9])
+        c=dict(c)
         r=requests.get(url=url+m)
         r=r.json()
         lis = [(k, v) for k, v in r.items()]
@@ -67,6 +68,7 @@ def get_data(m):
         file = open("static/image/image_"+m+".png", "wb")
         file.write(poster)
         file.close()
+        print(c)
         return lis,c
 def format_dat(a,b,c,d,e):
     res={}
@@ -74,15 +76,15 @@ def format_dat(a,b,c,d,e):
     res['d3']={}
     res['d2']={}
     res['d4']={}
-    res['d1']['title']=a[0][1]
-    res['d1']['director']=a[3][1]
+    res['d1']['title']=a['Title']
+    res['d1']['director']=a['director']
     res['d1']['runtime']=120
     res['d1']['desc']=b['overview']
     res['d1']['lang']=b['original_language']
     res['d1']['release_date']=b['release_date']
-    res['d1']['production_comp']=a[4][1]
+    res['d1']['production_comp']=a['production']
     res['d1']['cert']='Not_known'
-    res['d1']['poster']="image/image_"+a[0][1]+".png"
+    res['d1']['poster']="image/image_"+a['Title']+".png"
     res['d1']['vote_average']=b['vote_average']
     res['d1']['vote_count']=b['vote_count']
     for i in c.keys():
@@ -104,7 +106,6 @@ def format_dat(a,b,c,d,e):
         dat = vect1.transform([e[i][1]]).toarray()
         pred = senti1.predict(dat)
         res['d4'][i]={'author':e[i][0],'review':e[i][1],'prediction':pred}
-    print(res['d4'])
     return res
 def compute_cosine(a):
     df=pd.read_csv("temp1.csv")
