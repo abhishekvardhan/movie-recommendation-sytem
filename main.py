@@ -31,7 +31,8 @@ def predict():
     cst=cast_dat(data['id'])
     direc1=direc(data['id'])
     a=get_comm(data['id'])
-    data=format_dat(er,data,k,cst,a,direc1)
+    gen=get_genres(data['id'])
+    data=format_dat(er,data,k,cst,a,direc1,gen)
     return render_template("result.html" ,data=data ,l=list(res['Title']))
  
 def get_data(m):
@@ -71,7 +72,7 @@ def get_data(m):
         file.close()
         print(c)
         return lis,c
-def format_dat(a,b,c,d,e,f):
+def format_dat(a,b,c,d,e,f,g):
     res={}
     res['d1']={}
     res['d3']={}
@@ -80,6 +81,7 @@ def format_dat(a,b,c,d,e,f):
     res['d1']['title']=b['original_title']
     res['d1']['director']=f
     res['d1']['runtime']=120
+    res['d1']['genres']=g
     res['d1']['desc']=b['overview']
     res['d1']['lang']=b['original_language']
     res['d1']['release_date']=b['release_date']
@@ -187,6 +189,16 @@ def rem_uni(a):
     a = a.replace('û','u')
     a = a.replace('ç','c')
     return a
+def get_genres(m):
+    r='https://api.themoviedb.org/3/movie/'+str(19995)+'?api_key='+api_key+'&language=en-US'
+    r=requests.get(url=r)
+    r=r.json()
+    s=[]
+    for i in r['genres']:
+        s.append(i['name'])
+    
+    s = ["Sci-fi" if i=="Science Fiction" else i for i in s] 
+    return s
 def get_comm(a):
     url='https://api.themoviedb.org/3/movie/'+str(a)+'/reviews?api_key='+api_key+'&language=en-US&page=1'
     r=requests.get(url)
