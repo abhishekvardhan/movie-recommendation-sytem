@@ -29,8 +29,9 @@ def predict():
     k= get_data(list(res['Title']))
     data,er=get_data(m)
     cst=cast_dat(data['id'])
+    direc1=direc(data['id'])
     a=get_comm(data['id'])
-    data=format_dat(er,data,k,cst,a)
+    data=format_dat(er,data,k,cst,a,direc1)
     return render_template("result.html" ,data=data ,l=list(res['Title']))
  
 def get_data(m):
@@ -70,14 +71,14 @@ def get_data(m):
         file.close()
         print(c)
         return lis,c
-def format_dat(a,b,c,d,e):
+def format_dat(a,b,c,d,e,f):
     res={}
     res['d1']={}
     res['d3']={}
     res['d2']={}
     res['d4']={}
-    res['d1']['title']=a['Title']
-    res['d1']['director']=a['director']
+    res['d1']['title']=b['original_title']
+    res['d1']['director']=f
     res['d1']['runtime']=120
     res['d1']['desc']=b['overview']
     res['d1']['lang']=b['original_language']
@@ -136,6 +137,14 @@ def cast_dat(m):
         i['poster_p']=cast_image(i['id'],i['name'])
         i['dob']=a['dob']
     return r
+def direc(m):
+    r='https://api.themoviedb.org/3/movie/'+str(m)+'/credits?api_key='+api_key+'&language=en-US'
+    r=requests.get(url=r)
+    r=r.json()
+    r=r["crew"]
+    for i in r:
+        if (i['job']=='Director'):
+            return i['name']
     
 def getaddat(a):
     url='https://api.themoviedb.org/3/person/'+str(a)+'?api_key='+api_key+'&language=en-US'
@@ -187,6 +196,7 @@ def get_comm(a):
     for i in r:
         a.append([i['author'],i['content']])
     return a
+
 if __name__ == "__main__":
     app.run(debug=True,port=8000) 
 
