@@ -9,7 +9,41 @@
     crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
+<style>
+  .autocomplete {
+  position: relative;
+  display: inline-block;
+  background-color:yellow;
+}
+  .autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  top: 100%;
+  left: 0;
+  right: 0;
+}
 
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+  background-color: #e9e9e9; 
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
+}
+</style>
 <body>
   <img src="static/pop.gif" alt="gif" class="imgif"id="gif">
   <div class="collapse" id="navbarToggleExternalContent">
@@ -29,20 +63,26 @@
   </nav>
   <div class="textbox" id="a">
     <form action="/predict" method='POST'>
-      <input type="search" name="movie_name" id="name" placeholder="Search for a movie" size=45
-        style="font-size:20px; color:black; opacity:0.8 ;border:0">
+      <div class="autocomplete">
+      <input type="text" name="movie_name" id="movie_name" placeholder="Search for a movie" size=45
+        autocomplete="off" style="font-size:20px; color:black; opacity:0.8 ;border:0">
+      </div>
       <input type="submit" id="search" value="Search"
         style="font-size:20px; background-color:gray;color:black;border:0">
     </form>
   </div>
   <div id="result1" name="result" style="visibility:visible">
   </div>
+  <script type="text/javascript" src="static/AutoSuggest.js"></script>
+ <script type="text/javascript" src="static/search.js"></script>
  <script>
-       document.getElementById("search").onclick = function () {
+     var movies='{{movies|tojson}}';
+     var movies = JSON.parse(movies);
+     autocomplete(document.getElementById("movie_name"),movies);
+    document.getElementById("search").onclick = function () {
     document.getElementById("a").style.display = "none";
     document.getElementById("gif").style.display = "block";
     }
  </script> 
 </body>
-
 </html>

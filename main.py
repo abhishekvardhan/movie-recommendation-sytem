@@ -8,7 +8,7 @@ import requests
 import joblib
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-api_key='ef83cac599a8b6b59be433cffe4aa715'
+api_key='your_api_key'
 url='https://api.themoviedb.org/3/search/movie?api_key=' +api_key+ '&query='
 poster_url='https://image.tmdb.org/t/p/original'
 app=Flask(__name__)
@@ -18,7 +18,14 @@ def add_header(response):
     return response
 @app.route('/')
 def index():
-    return render_template("index.html")
+    movies=getmovies()
+    print(type(['a']))
+    return render_template("index.html",movies=movies)
+
+def getmovies():
+    df=pd.read_csv("temp1.csv")
+    a=df['Title']
+    return a.values.tolist()
 
 @app.route('/predict',methods=['POST'])
 def predict():
@@ -33,7 +40,8 @@ def predict():
     a=get_comm(data['id'])
     gen=get_genres(data['id'])
     data=format_dat(er,data,k,cst,a,direc1,gen)
-    return render_template("result.html" ,data=data ,l=list(res['Title']))
+    movies=getmovies()
+    return render_template("result.html" ,data=data ,l=list(res['Title']),movies=movies)
  
 def get_data(m):
     if type(m)==list:
@@ -70,7 +78,6 @@ def get_data(m):
         file = open("static/image/image_"+m+".png", "wb")
         file.write(poster)
         file.close()
-        print(c)
         return lis,c
 def format_dat(a,b,c,d,e,f,g):
     res={}
@@ -135,6 +142,7 @@ def cast_dat(m):
     for i in r:
         a=getaddat(i['id'])
         i['bio']=a['bio']
+
         i['popularity']=a['popularity']
         i['poster_p']=cast_image(i['id'],i['name'])
         i['dob']=a['dob']
@@ -154,12 +162,6 @@ def getaddat(a):
     r=r.json()
     r['biography']=r['biography'].replace('From Wikipedia, the free encyclopedia\n\n','')
     r['biography']=r['biography'].replace('\n\n',' ')
-    #r['biography']=r['biography'].split('.')
-    # o=''
-    # for i in range(3):
-    #     o+=r['biography'][i]
-    # r['biography']=''
-    # r['biography']=o
     return {'bio':r['biography'],'popularity':r['popularity'],'dob':r['birthday']}
 def cast_image(m,n):
     url='https://api.themoviedb.org/3/person/'+str(m)+'/images?api_key='+api_key
