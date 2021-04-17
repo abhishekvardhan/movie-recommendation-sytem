@@ -340,7 +340,11 @@
           {{data['d4'][i]['review']}}
         </td>
         <td>
-          {{data['d4'][i]['prediction']}}
+          {% if data['d4'][i]['prediction'][0] == 1 %}
+            &#128077;
+          {% else %}
+            &#128078;
+          {% endif %}
         </td>
       </tr>
       {% endfor %}
