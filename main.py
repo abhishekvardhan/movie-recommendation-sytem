@@ -8,6 +8,7 @@ import requests
 import joblib
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
+from collections import Counter
 api_key='ef83cac599a8b6b59be433cffe4aa715'
 url='https://api.themoviedb.org/3/search/movie?api_key=' +api_key+ '&query='
 poster_url='https://image.tmdb.org/t/p/original'
@@ -20,7 +21,7 @@ def add_header(response):
 def index():
     movies=getmovies()
     print(type(['a']))
-    return render_template("index.html",movies=movies,actors=['Will','Robert'],prod=['Marvel','DC'],director=['Nolan','Some IDiot'])
+    return render_template("index.html",movies=movies,actors=actorname,prod=productionname,director=directorname)
 
 def getmovies():
     df=pd.read_csv("temp1.csv")
@@ -211,7 +212,50 @@ def get_comm(a):
     for i in r:
         a.append([i['author'],i['content']])
     return a
-
+def get_actornames(df):
+    
+    h=[]
+    df=pd.read_csv("temp1.csv")
+    a=[]
+    for i in df["actor1"]:
+        a.append(i)
+    for i in df["actor2"]:
+        a.append(i)
+    for i in df["actor3"]:
+        a.append(i)
+    k=Counter(a)
+    k=dict(k)
+    for i,j in k.items():
+       if j>4:
+           h.append(i) 
+    return h
+def get_productionnames(df):
+    pro=[]
+    for i in df["production"]:
+        pro.append(i)
+    k=Counter(pro)
+    
+    h2=[]
+    k=dict(k)
+    for i,j in k.items():
+        if j>4:
+            h2.append(i) 
+    return h2
+def get_directornames(df):
+    dir1=[]
+    for i in df["director"]:
+       dir1.append(i)
+    k=Counter(dir1)
+    h1=[]
+    k=dict(k)
+    for i,j in k.items():
+        if j>4:
+            h1.append(i) 
+    return h1
 if __name__ == "__main__":
+    df=pd.read_csv("temp1.csv")
+    actorname=get_actornames(df)
+    directorname=get_directornames(df)
+    productionname=get_productionnames(df)
     app.run(debug=True,port=8000) 
 

@@ -460,7 +460,7 @@
     document.getElementById("movie_name").onclick = function () {
       var link = document.getElementById("Link").innerHTML;
       var dat = document.getElementById("movie_name");
-      if (link == "Movie") {
+      if (link == "Movies") {
         var movies = '{{movies|tojson}}';
         var movies = JSON.parse(movies);
         autocomplete(dat, movies);
@@ -482,12 +482,7 @@
         autocomplete(dat, dir);
         alert(movies);
       }
-      else{
-        var movies = '{{movies|tojson}}';
-        var movies = JSON.parse(movies);
-        autocomplete(dat, movies);
-        alert(movies);
-      }
+   
     }
   </script>
 
