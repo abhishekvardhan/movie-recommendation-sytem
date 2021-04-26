@@ -66,6 +66,3 @@
           closeAllLists(e.target);
       });
     }
-    var movies='{{movies|tojson}}';
-    var movies = JSON.parse(movies);
-    autocomplete(document.getElementById("movie_name"),movies);

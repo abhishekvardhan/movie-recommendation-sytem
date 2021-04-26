@@ -8,7 +8,7 @@ import requests
 import joblib
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-api_key='your_api_key'
+api_key='ef83cac599a8b6b59be433cffe4aa715'
 url='https://api.themoviedb.org/3/search/movie?api_key=' +api_key+ '&query='
 poster_url='https://image.tmdb.org/t/p/original'
 app=Flask(__name__)
@@ -20,7 +20,7 @@ def add_header(response):
 def index():
     movies=getmovies()
     print(type(['a']))
-    return render_template("index.html",movies=movies)
+    return render_template("index.html",movies=movies,actors=['Will','Robert'],prod=['Marvel','DC'],director=['Nolan','Some IDiot'])
 
 def getmovies():
     df=pd.read_csv("temp1.csv")
@@ -41,7 +41,8 @@ def predict():
     gen=get_genres(data['id'])
     data=format_dat(er,data,k,cst,a,direc1,gen)
     movies=getmovies()
-    return render_template("result.html" ,data=data ,l=list(res['Title']),movies=movies)
+
+    return render_template("result.html" ,data=data ,l=list(res['Title']),movies=movies,actors=['Will','Robert'],prod=['Marvel','DC'],director=['Nolan','Some IDiot'])
  
 def get_data(m):
     if type(m)==list:

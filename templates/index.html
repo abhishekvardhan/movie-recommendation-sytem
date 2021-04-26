@@ -8,44 +8,47 @@
     integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
     crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script type="text/javascript" src="static/Set_Name.js"></script>
 </head>
 <style>
   .autocomplete {
-  position: relative;
-  display: inline-block;
-  background-color:yellow;
-}
+    position: relative;
+    display: inline-block;
+    margin-left: 2px;
+  }
+
   .autocomplete-items {
-  position: absolute;
-  border: 1px solid #d4d4d4;
-  border-bottom: none;
-  border-top: none;
-  z-index: 99;
-  top: 100%;
-  left: 0;
-  right: 0;
-}
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+  }
 
-.autocomplete-items div {
-  padding: 10px;
-  cursor: pointer;
-  background-color: #fff; 
-  border-bottom: 1px solid #d4d4d4; 
-}
+  .autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+  }
 
-/*when hovering an item:*/
-.autocomplete-items div:hover {
-  background-color: #e9e9e9; 
-}
+  /*when hovering an item:*/
+  .autocomplete-items div:hover {
+    background-color: #e9e9e9;
+  }
 
-/*when navigating through the items using the arrow keys:*/
-.autocomplete-active {
-  background-color: DodgerBlue !important; 
-  color: #ffffff; 
-}
+  /*when navigating through the items using the arrow keys:*/
+  .autocomplete-active {
+    background-color: DodgerBlue !important;
+    color: #ffffff;
+  }
 </style>
+
 <body>
-  <img src="static/pop.gif" alt="gif" class="imgif"id="gif">
+  <img src="static/pop.gif" alt="gif" class="imgif" id="gif">
   <div class="collapse" id="navbarToggleExternalContent">
     <div class="bg-dark p-4">
       <h5 style="opacity:1  ">t</h5>
@@ -61,28 +64,64 @@
       </button>
     </div>
   </nav>
-  <div class="textbox" id="a">
-    <form action="/predict" method='POST'>
-      <div class="autocomplete">
-      <input type="text" name="movie_name" id="movie_name" placeholder="Search for a movie" size=45
-        autocomplete="off" style="font-size:20px; color:black; opacity:0.8 ;border:0">
+  <form action="/predict" method='POST'>
+    <div class="textbox" id="a">
+      <div class="btn-group">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+          aria-expanded="false" id="Link">
+          Select
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" onclick="setMovie()"> By Movie Names </a></li>
+          <li><a class="dropdown-item" onclick="setActor()"> By Actor </a></li>
+          <li><a class="dropdown-item" onclick="setProd()"> By Production Company </a></li>
+          <li><a class="dropdown-item" onclick="setDirector()"> By Director </a></li>
+        </ul>
+      </div>
+      &nbsp;
+        <div class="autocomplete">
+        <input type="text" name="movie_name" id="movie_name" placeholder="Search for a movie" size=45 autocomplete="off"
+          style="font-size:20px; color:black; opacity:0.8 ;border:0">
       </div>
       <input type="submit" id="search" value="Search"
         style="font-size:20px; background-color:gray;color:black;border:0">
-    </form>
+  </form>
   </div>
   <div id="result1" name="result" style="visibility:visible">
   </div>
   <script type="text/javascript" src="static/AutoSuggest.js"></script>
- <script type="text/javascript" src="static/search.js"></script>
- <script>
-     var movies='{{movies|tojson}}';
-     var movies = JSON.parse(movies);
-     autocomplete(document.getElementById("movie_name"),movies);
-    document.getElementById("search").onclick = function () {
-    document.getElementById("a").style.display = "none";
-    document.getElementById("gif").style.display = "block";
+  <script type="text/javascript" src="static/search.js"></script>
+  <script>
+    document.getElementById("movie_name").onclick = function () {
+      var link = document.getElementById("Link").innerHTML;
+      var dat = document.getElementById("movie_name");
+      if (link == "Movies") {
+        var movies = '{{movies|tojson}}';
+        var movies = JSON.parse(movies);
+        autocomplete(dat, movies);
+      }
+      if (link == "Actor") {
+        var actors = '{{actors|tojson}}';
+        var actors = JSON.parse(actors);
+        autocomplete(dat, actors);
+      }
+      if (link == "Production Company") {
+        var prod = '{{prod|tojson}}';
+        var prod = JSON.parse(prod);
+        autocomplete(dat, prod);
+      }
+      if (link == "Director") {
+        var dir = '{{director|tojson}}';
+        var dir = JSON.parse(dir);
+        autocomplete(dat, dir);
+      }
     }
- </script> 
+    document.getElementById("search").onclick = function () {
+      // document.getElementById("movie_name").value
+      document.getElementById("a").style.display = "none";
+      document.getElementById("gif").style.display = "block";
+    }
+  </script>
 </body>
+
 </html>
