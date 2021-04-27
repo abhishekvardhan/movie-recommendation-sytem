@@ -11,6 +11,9 @@
     <script type="text/javascript" src="static/Set_Name.js"></script>
 </head>
 <style>
+  body{
+    margin-top:5%;
+  }
     .autocomplete {
         position: relative;
         display: inline-block;
@@ -90,13 +93,13 @@
 </style>
 
 <body>
-    <div class="sidebar" style="background-color: #555454;">
-        <a href="#"><img src="static/popcorn.png" style="width:48px;height:48px;">&nbsp;Home</a>
-        <a href="https://github.com/abhishekvardhan/movie-recommendation-sytem"><img src="static/github.png" style="width:48px;height:48px;">&nbsp;Source</a>
-        <a href="/templates/aboutus.html"><img src="static/group.png" style="width:48px;height:48px;">&nbsp;About Us</a>
-        <a href="#contact"><img src="static/bug.png" style="width:48px;height:48px;">&nbsp;Report Bugs</a>
-      </div>
-      <div class="main">
+  <div class="sidebar" style="background-color: #555454;">
+    <a href="#"><img src="static/popcorn.png" style="width:48px;height:48px;">&nbsp;Home</a>
+    <a href="https://github.com/abhishekvardhan/movie-recommendation-sytem"><img src="static/github.png" style="width:48px;height:48px;">&nbsp;Source</a>
+    <a href="/templates/aboutus.html"><img src="static/group.png" style="width:48px;height:48px;">&nbsp;About Us</a>
+    <a href="#contact"><img src="static/bug.png" style="width:48px;height:48px;">&nbsp;Report Bugs</a>
+  </div>
+  <div class="main">
     <img src="static/pop.gif" alt="gif" class="imgif" id="gif">
     <div class="collapse" id="navbarToggleExternalContent">
         <div class="bg-dark p-4">
@@ -104,15 +107,6 @@
             <span class="text-muted"></span>
         </div>
     </div>
-    <nav class="navbar navbar-dark bg-dark" style="opacity:0.3">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
-                aria-expanded="false" aria-label="Toggle navigation" style="color:white" role="button">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-    </nav>
         <div class="textbox" id="a">
             <form action="/predict" method='POST'>
             <div class="btn-group">

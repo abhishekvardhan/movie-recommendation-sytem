@@ -223,9 +223,49 @@
     float: left;
     width: 40%
   }
+  .sidebar {
+  height: 100%;
+  width: 240px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 16px;
+}
+
+.sidebar a {
+  padding: 8px 10px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+}
+
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.main {
+  margin-left: 160px; /* Same as the width of the sidenav */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}
 </style>
 
 <body>
+  <div class="sidebar" style="background-color: #555454;">
+    <a href="#"><img src="static/popcorn.png" style="width:48px;height:48px;">&nbsp;Home</a>
+    <a href="https://github.com/abhishekvardhan/movie-recommendation-sytem"><img src="static/github.png" style="width:48px;height:48px;">&nbsp;Source</a>
+    <a href="/templates/aboutus.html"><img src="static/group.png" style="width:48px;height:48px;">&nbsp;About Us</a>
+    <a href="#contact"><img src="static/bug.png" style="width:48px;height:48px;">&nbsp;Report Bugs</a>
+  </div>
+  <div class="main">
   <img src="static/pop.gif" alt="gif" class="imgif" id="gif">
   <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
   <div class="collapse" id="navbarToggleExternalContent">
@@ -249,7 +289,7 @@
         <div class="btn-group">
           <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
             aria-expanded="false" id="Link">
-            Movies
+            Select
           </button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" onclick="setMovie()"> By Movie Names </a></li>
@@ -389,6 +429,7 @@
   <script type="text/javascript" src="static/search.js"></script>
   <script type="text/javascript" src="static/result.js"></script>
   <script>
+    var x;
     var movies = '{{movies|tojson}}';
     var movies = JSON.parse(movies);
     autocomplete(document.getElementById("movie_name"), movies);
@@ -460,34 +501,31 @@
     document.getElementById("movie_name").onclick = function () {
       var link = document.getElementById("Link").innerHTML;
       var dat = document.getElementById("movie_name");
-      if (link == "Movie") {
+      if (link == "Movies") {
         var movies = '{{movies|tojson}}';
         var movies = JSON.parse(movies);
+        x="movie~"
         autocomplete(dat, movies);
-        alert(" /",link,"/");
       }
       if (link == "Actor") {
         var actors = '{{actors|tojson}}';
         var actors = JSON.parse(actors);
         autocomplete(dat, actors);
+        x="actor~"
       }
       if (link == "Production Company") {
         var prod = '{{prod|tojson}}';
         var prod = JSON.parse(prod);
         autocomplete(dat, prod);
+        x="prod~"
       }
       if (link == "Director") {
         var dir = '{{director|tojson}}';
         var dir = JSON.parse(dir);
         autocomplete(dat, dir);
-        alert(movies);
+        x="dir~"
       }
-      else{
-        var movies = '{{movies|tojson}}';
-        var movies = JSON.parse(movies);
-        autocomplete(dat, movies);
-        alert(movies);
-      }
+   
     }
   </script>
 

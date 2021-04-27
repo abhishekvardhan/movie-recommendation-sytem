@@ -1,40 +1,63 @@
-from flask import Flask,render_template,url_for,request
+from flask import Flask, render_template, url_for, request
 import pandas as pd
 import numpy as np
 from TMDBSEARCH import search as src
 from ML import matlearn as mt
-app=Flask(__name__)
+from Getnames import getname as gt
+app = Flask(__name__)
+
+
 @app.after_request
 def add_header(response):
     response.cache_control.max_age = 0
     return response
+
+
 @app.route('/')
 def index():
-    movies=getmovies()
-    return render_template("index.html",movies=movies,actors=['Will','Robert'],prod=['Marvel','DC'],director=['Nolan','Some IDiot'])
+    movies = getmovies()
+    return render_template("index.html", movies=movies, actors=actorname, prod=productionname, director=directorname)
+
 
 def getmovies():
-    df=pd.read_csv("temp1.csv")
-    a=df['Title']
+    df = pd.read_csv("temp1.csv")
+    a = df['Title']
     return a.values.tolist()
 
-@app.route('/predict',methods=['POST'])
-def predict():
-    m=''
-    m=request.form['movie_name']
-    m=m.replace('&#39;',"'")
-    res=mt.compute_cosine(m)
-    k= src.get_data(list(res['Title']))
-    data,er=src.get_data(m)
-    cst=src.cast_dat(data['id'])
-    direc1=src.direc(data['id'])
-    a=src.get_comm(data['id'])
-    gen=src.get_genres(data['id'])
-    data=format_dat(er,data,k,cst,a,direc1,gen)
-    movies=getmovies()
-    return render_template("result.html" ,data=data ,l=list(res['Title']),movies=movies,actors=['Will','Robert'],prod=['Marvel','DC'],director=['Nolan','Some IDiot'])
- 
 
+@app.route('/predict', methods=['POST'])
+def predict():
+    m = ''
+    m = request.form['movie_name']
+    m = m.split("~")
+    if m[0] == 'movie':
+       m=m[1]
+       m=m.replace('&#39;',"'")
+       res=mt.compute_cosine(m)
+       k= src.get_data(list(res['Title']))
+       data,er=src.get_data(m)
+       cst=src.cast_dat(data['id'])
+       direc1=src.direc(data['id'])
+       a=src.get_comm(data['id'])
+       gen=src.get_genres(data['id'])
+       data=format_dat(er,data,k,cst,a,direc1,gen)
+       movies=getmovies()
+       return render_template("result.html" ,data=data ,l=list(res['Title']),movies=movies,actors=actorname,prod=productionname,director=directorname)
+    if m[0]== 'actor':
+        m=m[1]
+        x=src.getactor_details(m)
+        movies=getmovies()
+        return render_template("actor.html",data=x,movies=movies,actors=actorname,prod=productionname,director=directorname)
+    if m[0]== 'prod':
+        m=m[1]
+        x=src.get_prod(m)
+        movies=getmovies()
+        return render_template("prod.html",data=x,movies=movies,actors=actorname,prod=productionname,director=directorname)
+    if m[0]=='dir':
+        m=m[1]
+        x=src.get_director(m)
+        movies=getmovies()
+        return render_template("director.html",data=x,movies=movies,actors=actorname,prod=productionname,director=directorname)
 def format_dat(a,b,c,d,e,f,g):
     res={}
     res['d1']={}
@@ -70,5 +93,9 @@ def format_dat(a,b,c,d,e,f,g):
     return res
 
 if __name__ == "__main__":
+    df=pd.read_csv('temp1.csv')
+    actorname=gt.get_actornames(df)
+    directorname=gt.get_directornames(df)
+    productionname=gt.get_productionnames(df)
     app.run(debug=True,port=8000) 
 

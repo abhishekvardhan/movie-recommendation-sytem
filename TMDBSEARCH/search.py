@@ -121,3 +121,64 @@ def get_comm(a):
     for i in r:
         a.append([i['author'],i['content']])
     return a
+
+def getactor_details(a):
+    url='https://api.themoviedb.org/3/search/person/?api_key='+api_key+'&language=en-US&page=1&include_adult=false&query='+a
+    r=requests.get(url=url)
+    r=r.json()
+    lis = [(k, v) for k, v in r.items()]
+    lis=lis[1][1][0]
+    x=getaddat(lis['id'])
+    x['poster']=cast_image(lis['id'],lis['name'])
+    x['name']=lis['name']
+    if lis['gender']==1:
+        x['gender']='Female'
+    if lis['gender']==2:
+        x['gender']='Male'
+    if lis['gender']>2:
+        x['gender']='Other'
+    return x
+def get_prod(a):
+    url='https://api.themoviedb.org/3/search/company?api_key='+api_key+'&page=1&query='+a
+    r=requests.get(url)
+    r=r.json()
+    lis = [(k, v) for k, v in r.items()]
+    lis=lis[1][1][0]
+    url='https://api.themoviedb.org/3/company/'+str(lis['id'])+'?api_key='+api_key
+    r=requests.get(url)
+    r=r.json()
+    poster=requests.get(url=poster_url+r['logo_path'])
+    poster=poster.content
+    a=r['name']
+    a=a.replace(' ','_')
+    file = open("static/production/im_"+a+".png", "wb")
+    file.write(poster)
+    file.close() 
+    r['poster']="/production/im_"+a+".png"
+    return r
+def get_director(a):
+    url='https://api.themoviedb.org/3/search/person/?api_key='+api_key+'&language=en-US&page=1&include_adult=false&query='+a
+    r=requests.get(url=url)
+    r=r.json()
+    lis = [(k, v) for k, v in r.items()]
+    lis=lis[1][1][0]
+    x=getaddat(lis['id'])
+    x['poster']=lis['profile_path']
+    poster=requests.get(url=poster_url+x['poster'])
+    poster=poster.content
+    a=lis['name']
+    a=a.replace(' ','_')
+    file = open("static/directors/im_"+a+".png", "wb")
+    file.write(poster)
+    file.close() 
+    x['poster']="/directors/im_"+a+".png"
+    if lis['gender']==1:
+        x['gender']='Female'
+    if lis['gender']==2:
+        x['gender']='Male'
+    if lis['gender']>2:
+        x['gender']='Other'
+    print(x)
+    return x
+if __name__ == '__main__':
+    get_director("Christopher Nolan")
