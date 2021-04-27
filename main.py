@@ -6,6 +6,7 @@ import urllib.request
 import json
 import requests
 import joblib
+import re
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from collections import Counter
@@ -218,10 +219,16 @@ def get_actornames(df):
     df=pd.read_csv("temp1.csv")
     a=[]
     for i in df["actor1"]:
+        i=" ".join(re.split('(?=[A-Z])', i))
+        i=i.strip(" ")
         a.append(i)
     for i in df["actor2"]:
+        i=" ".join(re.split('(?=[A-Z])', i))
+        i=i.strip(" ")
         a.append(i)
     for i in df["actor3"]:
+        i=" ".join(re.split('(?=[A-Z])', i))
+        i=i.strip(" ")
         a.append(i)
     k=Counter(a)
     k=dict(k)
@@ -232,6 +239,8 @@ def get_actornames(df):
 def get_productionnames(df):
     pro=[]
     for i in df["production"]:
+        i=" ".join(re.split('(?=[A-Z])', i))
+        i=i.strip(" ")
         pro.append(i)
     k=Counter(pro)
     
@@ -244,7 +253,9 @@ def get_productionnames(df):
 def get_directornames(df):
     dir1=[]
     for i in df["director"]:
-       dir1.append(i)
+        i=" ".join(re.split('(?=[A-Z])', i))
+        i=i.strip(" ")
+        dir1.append(i)
     k=Counter(dir1)
     h1=[]
     k=dict(k)
