@@ -80,8 +80,8 @@ def cast_image(m,n):
     r=r['profiles'][0]['file_path']
     poster=requests.get(url=poster_url+r)
     poster=poster.content
-    n=n.replace(' ','_')
     n =n.replace('à', 'a')
+    n=n.replace(' ','_')
     n=rem_uni(n)
     file = open("static/image_cast/"+n+".png", "wb")
     file.write(poster)
@@ -150,7 +150,6 @@ def get_prod(a):
     poster=requests.get(url=poster_url+r['logo_path'])
     poster=poster.content
     a=r['name']
-    a=a.replace(' ','_')
     file = open("static/production/im_"+a+".png", "wb")
     file.write(poster)
     file.close() 
@@ -167,7 +166,6 @@ def get_director(a):
     poster=requests.get(url=poster_url+x['poster'])
     poster=poster.content
     a=lis['name']
-    a=a.replace(' ','_')
     file = open("static/directors/im_"+a+".png", "wb")
     file.write(poster)
     file.close() 
