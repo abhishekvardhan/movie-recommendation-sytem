@@ -178,7 +178,6 @@ def get_director(a):
         x['gender']='Male'
     if lis['gender']>2:
         x['gender']='Other'
-    print(x)
     return x
 if __name__ == '__main__':
     get_director("Christopher Nolan")
