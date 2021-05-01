@@ -275,6 +275,7 @@ def get_prod(a):
     poster=requests.get(url=poster_url+r['logo_path'])
     poster=poster.content
     a=r['name']
+    a=a.replace(' ','_')
     file = open("static/production/im_"+a+".png", "wb")
     file.write(poster)
     file.close() 
@@ -291,6 +292,7 @@ def get_director(a):
     poster=requests.get(url=poster_url+x['poster'])
     poster=poster.content
     a=lis['name']
+    a=a.replace(' ','_')
     file = open("static/directors/im_"+a+".png", "wb")
     file.write(poster)
     file.close() 
@@ -301,6 +303,7 @@ def get_director(a):
         x['gender']='Male'
     if lis['gender']>2:
         x['gender']='Other'
+    print(x)
     return x
 
 def get_actornames(df):
