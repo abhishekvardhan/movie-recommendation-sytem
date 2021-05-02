@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://kit.fontawesome.com/4a975fa749.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="static/main.css">
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recomendation Sytem
+        <link rel="icon" src="static/popcorn.png" type="image/gif">
+    </title>
+    <style>
+        .container {
+            padding: 0 6px;
+            float: left;
+            width: 65%;
+            margin-left: 18%;
+            margin-top: 50px;
+
+        }
+
+        .member {
+            border: 1px solid #ccc;
+            padding: 0 6px;
+            float: left;
+            width: 20.99999%;
+            margin: 40px;
+            background-color: darkgrey;
+            text-align: center;
+            height: 98%;
+        }
+
+        div.member:hover {
+            border: 1px solid rgb(196, 172, 172);
+            background-color: black;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        div.member:hover .information {
+            display: block;
+        }
+
+        div.member:hover .name {
+            display: none;
+        }
+
+        div.member img {
+            width: 100%;
+            height: auto;
+        }
+
+        div.name {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .information {
+            padding: 15px;
+            position: relative;
+            left: 15%;
+            transform: translateX(-15%);
+            display: none;
+        }
+
+        h2 {
+            color: black;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="/"><img src="static/popcorn.png" style="width:25px;height:25px;" class="header-logo"
+                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Home"></a>
+        <a href="https://github.com/abhishekvardhan/movie-recommendation-sytem" class="header-buttons"
+            data-bs-toggle="tooltip" data-bs-placement="bottom" title="View Source"><img src="static/github.png"
+                style="width:25px;height:25px;right:145px;position:absolute;"></a>
+        <a href="/about" data-bs-toggle="tooltip" data-bs-placement="bottom" title="About Us"><img
+                src="static/group.png" style="width:25px;height:25px;right:90px;position:absolute;"
+                class="header-buttons"></a>
+        <a href="#contact"><img src="static/bug.png" style="width:25px;height:25px;right:35px;position:absolute;"
+                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Report Bugs" class="header-buttons"></a>
+    </header>
+    <br>
+
+    <h2>About</h2>
+    <div class="container">
+
+        <div class="member">
+            <img src=static/photos/vaibhav.jpeg style="height:240px;width:180px">
+            <div class="information">
+                <a href="https://www.linkedin.com/in/vaibhav-kovela-3a5330171/" target="__blank" title="Github"><i
+                        class="fab fa-linkedin fa-2x"></i></a> &nbsp;
+                <a href="https://github.com/vaibhavkovela" target="__blank" title="Github"><i
+                        class="fab fa-github fa-2x"></i></a>
+            </div>
+            <p class="name">Vaibhav Kovela</p>
+
+        </div>
+        <div class="member">
+            <img src="static/photos/soem1.jpg" style="height:240px;width:180px">
+            <div class="information">
+                <a href="hhttps://www.linkedin.com/in/abhishek-vardhan-8b71b0192/" target="__blank" title="Github"><i
+                        class="fab fa-linkedin fa-2x"></i></a> &nbsp;
+                <a href="https://github.com/abhishekvardhan" target="__blank" title="Github"><i
+                        class="fab fa-github fa-2x"></i></a>
+            </div>
+            <p class="name">N Abhishek Vardhan</p>
+        </div>
+        <div class="member">
+            <img src="static/photos/rahul.jpeg" style="height:240px;width:180px">
+            <div class="information">
+
+                <a href="www.linkedin.com/in/v-v-s-rahul-kumar-44b617155" target="__blank" title="linkedin"><i
+                        class="fab fa-linkedin fa-2x"></i></a> &nbsp;
+                <a href="https://github.com/darkfate36" target="__blank" title="Github"><i
+                        class="fab fa-github fa-2x"></i></a>
+            </div>
+            <p class="name">V V S Rahul Kumar</p>
+        </div>
+    </div>
+
+    <footer>
+        <a href="/licence" class="header-buttons"
+            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Licence" style="color:black;position:absolute;left:45%">Terms of Use</a>
+            &nbsp;&nbsp;
+            <a href="https://github.com/abhishekvardhan/movie-recommendation-sytem" class="header-buttons"
+            data-bs-toggle="tooltip" data-bs-placement="bottom" title="View Source"><img src="static/github.png"
+                style="position:absolute;width:25px;height:25px;right:45%;"></a>
+    </footer>
+</body>
+
+</html>

@@ -29,7 +29,13 @@ def getmovies():
     a = df['Title']
     return a.values.tolist()
 
+@app.route('/about')
+def about_us():
+    return render_template('about.html')
 
+@app.route('/licence')
+def licence():
+    return render_template('licence.html')
 @app.route('/predict', methods=['POST'])
 def predict():
     m = ''
@@ -264,6 +270,7 @@ def getactor_details(a):
         x['gender']='Other'
     return x
 def get_prod(a):
+    poster_url='https://image.tmdb.org/t/p/w500'
     url='https://api.themoviedb.org/3/search/company?api_key='+api_key+'&page=1&query='+a
     r=requests.get(url)
     r=r.json()
@@ -295,6 +302,7 @@ def get_director(a):
     a=a.replace(' ','_')
     file = open("static/directors/im_"+a+".png", "wb")
     file.write(poster)
+    x['name']=lis['name']
     file.close() 
     x['poster']="/directors/im_"+a+".png"
     if lis['gender']==1:

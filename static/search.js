@@ -4,6 +4,7 @@ document.getElementById("search").onclick = function () {
   document.getElementById("castfo").style.display = "none";
   document.getElementById("recos").style.display = "none";
   document.getElementById("senti").style.display = "none";
+  document.getElementsByClassName("footer").display="none";
   document.getElementById("gif").style.display = "block";
   var name = document.getElementById("movie_name").value;
     x = x.concat(name);
