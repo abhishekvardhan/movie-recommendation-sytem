@@ -227,7 +227,7 @@
       <p style="color:rgb(231, 255, 15);text-align:left;">Gender : {{data['gender']}}</p>
   </div>
   <div class="result" id="recos">
-    <br><br> <h2 style="text-align:left;color:Black;"><strong>Movies By {{data['name']}}</strong></h2><br><br>
+    <br><br> <h2 style="text-align:left;color:rgb(255, 255, 255);"><strong>Movies By {{data['name']}}</strong></h2><br><br>
      <div class="row">
        {% for i in range(4) %}
        <div class="column">
@@ -289,6 +289,7 @@
        document.getElementById("a").style.display = "none";
        document.getElementById("details1").style.display = "none";
        document.getElementsByClassName("footer").display="none";
+       document.getElementsByClassName("recos").display="none";
        document.getElmentById("gif").style.display = "block";
      }
      </script>
