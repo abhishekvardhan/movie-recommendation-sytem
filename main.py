@@ -58,15 +58,46 @@ def predict():
         m=m[1]
         x=getactor_details(m)
         movies=getmovies()
+        recom = get_reco_by_actor(m)
+        k= get_data(recom)
+        x['reco_movie'] = recom
+        rec=[]
+        w=0
+        for i in k:
+            a= get_poster(recom[w],k[i]['data']['backdrop_path'])
+            rec.append(a)
+            w+=1
+        x['profile']=rec
         return render_template("actor.html",data=x,movies=movies,actors=actorname,prod=productionname,director=directorname)
     if m[0]== 'prod':
         m=m[1]
         x=get_prod(m)
         movies=getmovies()
+        recom = get_reco_by_company(m)
+        k= get_data(recom)
+        x['reco_movie'] = recom
+        rec=[]
+        w=0
+        for i in k:
+            a= get_poster(recom[w],k[i]['data']['backdrop_path'])
+            rec.append(a)
+            w+=1
+        x['profile']=rec
         return render_template("prod.html",data=x,movies=movies,actors=actorname,prod=productionname,director=directorname)
     if m[0]=='dir':
         m=m[1]
         x=get_director(m)
+        movies=getmovies()
+        recom = get_reco_by_director(m)
+        k= get_data(recom)
+        x['reco_movie'] = recom
+        rec=[]
+        w=0
+        for i in k:
+            a= get_poster(recom[w],k[i]['data']['backdrop_path'])
+            rec.append(a)
+            w+=1
+        x['profile']=rec
         movies=getmovies()
         return render_template("director.html",data=x,movies=movies,actors=actorname,prod=productionname,director=directorname)
 
@@ -89,6 +120,43 @@ def compute_cosine(a):
     cosmi=pd.DataFrame(np.column_stack((cosmi,mvs)),columns=['Based Index','Score','Title'])    
     return cosmi[1:11]
 
+def get_reco_by_actor(s):
+    df = pd.read_csv('temp2.csv')
+    t=0
+    df3=pd.DataFrame()
+    for i in range(len(df)):
+        if((df["actor1"][i]==s) or (df["actor2"][i]==s )or( df["actor3"][i]==s)):
+            df3[t]=df.iloc[i]
+            df3=pd.concat([df3, df.iloc[i]], axis=1)
+    df3=df3.T
+    df3=df3.sort_values("rate", ascending=False)
+    df3=df3.drop_duplicates(subset=['rate'])
+    return list(df3['Title'][:4])
+
+def get_reco_by_director(s):
+    df = pd.read_csv('temp2.csv')
+    t=0
+    df3=pd.DataFrame()
+    for i in range(len(df)):
+        if(df["director"][i]==s):
+            df3[t]=df.iloc[i]
+            df3=pd.concat([df3, df.iloc[i]], axis=1)
+    df3=df3.T
+    df3=df3.sort_values("rate", ascending=False)
+    df3=df3.drop_duplicates(subset=['rate'])
+    return list(df3['Title'][:4])
+def get_reco_by_company(s):
+    df = pd.read_csv('temp2.csv')
+    df3=pd.DataFrame()
+    t=0
+    for i in range(len(df)):
+        if(df["production"][i]==s):
+            df3[t]=df.iloc[i]
+            df3=pd.concat([df3, df.iloc[i]], axis=1)
+    df3=df3.T
+    df3=df3.sort_values("rate", ascending=False)
+    df3=df3.drop_duplicates(subset=['rate'])
+    return list(df3['Title'][:4])
 def Sim(dat):
     import joblib as joblib
     from sklearn.feature_extraction.text import CountVectorizer
@@ -204,6 +272,16 @@ def getaddat(a):
     r['biography']=r['biography'].replace('From Wikipedia, the free encyclopedia\n\n','')
     r['biography']=r['biography'].replace('\n\n',' ')
     return {'bio':r['biography'],'popularity':r['popularity'],'dob':r['birthday']}
+def get_poster(n,r):
+    n=n.replace(' ','')
+    n=n.replace("'","")
+    poster=requests.get(url=poster_url+r)
+    poster=poster.content
+    file = open("static/image/"+n+".png", "wb")
+    file.write(poster)
+    file.close() 
+    return "/image/"+n+".png"
+
 def cast_image(m,n):
     url='https://api.themoviedb.org/3/person/'+str(m)+'/images?api_key='+api_key
     r=requests.get(url)
@@ -287,6 +365,7 @@ def get_prod(a):
     file.write(poster)
     file.close() 
     r['poster']="/production/im_"+a+".png"
+    print(r)
     return r
 def get_director(a):
     url='https://api.themoviedb.org/3/search/person/?api_key='+api_key+'&language=en-US&page=1&include_adult=false&query='+a

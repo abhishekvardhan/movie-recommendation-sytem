@@ -40,23 +40,129 @@
     margin-left: 2%;
     overflow: hidden;
   }
-
-  .autocomplete-items div {
-    padding: 10px;
-    cursor: pointer;
-    background-color: #fff;
-    border-bottom: 1px solid #d4d4d4;
+  .card {
+    padding: 9px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    width: 85%;
+    height: 98%;
+    color: black;
+    background-color: rgb(187, 176, 176);
   }
 
-  /*when hovering an item:*/
-  .autocomplete-items div:hover {
-    background-color: #e9e9e9;
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    background-color: black;
+    width: 90%;
+    height: 100%;
+    color: white;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 16px;
   }
 
-  /*when navigating through the items using the arrow keys:*/
-  .autocomplete-active {
-    background-color: DodgerBlue !important;
-    color: #ffffff;
+  .container {
+    padding: 2px 16px;
+  }
+
+  .middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: relative;
+    left: 50%;
+    transform: translateX(-55%);
+    display: none;
+  }
+
+  .card:hover .middle {
+    opacity: 1;
+    display: block;
+  }
+
+  .card:hover .container {
+    display: none;
+  }
+
+  .card:hover .image {
+    opacity: 0.5;
+  }
+
+  .butt {
+    color: black;
+    background-color: rgb(214, 0, 0);
+    text-align: center;
+    width: 50%;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+    .autocomplete-items div {
+        padding: 10px;
+        cursor: pointer;
+        background-color: #fff;
+        border-bottom: 1px solid #d4d4d4;
+    }
+
+    /*when hovering an item:*/
+    .autocomplete-items div:hover {
+        background-color: #e9e9e9;
+    }
+
+    /*when navigating through the items using the arrow keys:*/
+    .autocomplete-active {
+        background-color: DodgerBlue !important;
+        color: #ffffff;
+    }
+    .column {
+    float: left;
+    width: 20%;
+    padding: 0 10px;
+  }
+
+  .columnCa {
+    float: none;
+    width: 25%;
+    padding: 10px 25px;
+    display: flex;
+    justify-content: center;
+    margin: top 25px;
+    margin-left: 70px;
+  }
+
+  .row {
+    margin: 0 -5px;
+  }
+
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  @media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .columnCA {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+
+  @media screenCb and (max-width: 600px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
   }
 </style>
 
@@ -108,8 +214,8 @@
   <div class="result" style="color:aliceblue" id="details1">
     <img src="{{ url_for('static',filename=data['poster']) }}" alt="poster"
       style="width:280px;height:420px;float:right;padding:25px;margin-left:15px;margin-right:85px">
-    <h1 style="color:black;font-family:Monaco;text-align:left;"><strong>{{data['name']}}</strong></h1><br>
-    <h6 style="color:black;font-family:Monaco;text-align:left;">Directed by : {{data['dob']}} <svg
+    <h1 style="color:rgb(255, 255, 255);font-family:Monaco;text-align:left;"><strong>{{data['name']}}</strong></h1><br>
+    <h6 style="color:rgb(255, 255, 255);font-family:Monaco;text-align:left;">Directed by : {{data['dob']}} <svg
         xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bullseye"
         viewBox="0 0 16 16">
         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
@@ -118,50 +224,74 @@
         <path d="M9.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
       </svg>&nbsp; Popularity : {{data['popularity']}} <br><br>
       <p style="color:rgb(238, 61, 61);text-align:left;">{{data['bio']}}</p><br>
-      <p style="color:rgb(36, 43, 136);text-align:left;">Gender : {{data['gender']}}</p>
+      <p style="color:rgb(231, 255, 15);text-align:left;">Gender : {{data['gender']}}</p>
   </div>
-  <script type="text/javascript" src="static/AutoSuggest.js"></script>
-  <script type="text/javascript" src="static/search.js"></script>
-  <script>
-    var pre;
-    document.getElementById("movie_name").onclick = function () {
-      var link = document.getElementById("Link").innerHTML;
-      var dat = document.getElementById("movie_name");
-      if (link == "Movies") {
-        var movies = '{{movies|tojson}}';
-        var movies = JSON.parse(movies);
-        autocomplete(dat, movies);
-        pre = "movie~";
-      }
-      if (link == "Actor") {
-        var actors = '{{actors|tojson}}';
-        var actors = JSON.parse(actors);
-        autocomplete(dat, actors);
-        pre = "actor~";
-      }
-      if (link == "Production Company") {
-        var prod = '{{prod|tojson}}';
-        var prod = JSON.parse(prod);
-        autocomplete(dat, prod);
-        pre = "prod~";
-      }
-      if (link == "Director") {
-        var dir = '{{director|tojson}}';
-        var dir = JSON.parse(dir);
-        autocomplete(dat, dir);
-        pre = "dir~";
-      }
-    }
-    document.getElementById("search").onclick = function () {
-      var name = document.getElementById("movie_name").value;
-      pre = pre.concat(name);
-      document.getElementById("movie_name").value = pre;
-      document.getElementById("a").style.display = "none";
-      document.getElementById("details1").style.display = "none";
-      document.getElementsByClassName("footer").display = "none";
-      document.getElementById("gif").style.display = "block";
-    }
-  </script>
+  <div class="result" id="recos">
+    <br><br> <h2 style="text-align:left;color:Black;"><strong>Movies By {{data['name']}}</strong></h2><br><br>
+     <div class="row">
+       {% for i in range(4) %}
+       <div class="column">
+         <div class="card">
+           <img src="{{ url_for('static',filename=data['profile'][i]) }}" alt="{{data['reco_movie'][i]}}" class="image"
+             style="width:100%;"><br>
+           <div class="middle">
+             <div class="btn btn-outline-danger" id={{'btn'+ i|string}}> Explore </div>
+           </div>
+           <div class="container">
+             <h4 id="c0"><b>{{data['reco_movie'][i]}}</b></h4>
+           </div>
+         </div>
+       </div>
+       {% endfor %}
+     </div><br>
+     <br><br>
+     <script type="text/javascript" src="static/AutoSuggest.js"></script>
+     <script type="text/javascript" src="static/search.js"></script>
+     <script type="text/javascript" src="static/result.js"></script>
+     <script>
+          var pre;
+     document.getElementById("movie_name").onclick = function () {
+       var link = document.getElementById("Link").innerHTML;
+       var dat = document.getElementById("movie_name");
+       if (link == "Movies") {
+         var movies = '{{movies|tojson}}';
+         var movies = JSON.parse(movies);
+         autocomplete(dat, movies);
+         pre="movie~";
+       }
+       if (link == "Actor") {
+         var actors = '{{actors|tojson}}';
+         var actors = JSON.parse(actors);
+         autocomplete(dat, actors);
+         pre="actor~";
+       }
+       if (link == "Production Company") {
+         var prod = '{{prod|tojson}}';
+         var prod = JSON.parse(prod);
+         autocomplete(dat, prod);
+         pre="prod~";
+       }
+       if (link == "Director") {
+         var dir = '{{director|tojson}}';
+         var dir = JSON.parse(dir);
+         autocomplete(dat, dir);
+         pre="dir~";
+       }
+     }
+     document.getElementById("btn0").onclick = function () { b0('{{data['reco_movie'][0]}}') };
+     document.getElementById("btn1").onclick = function () { b1('{{data['reco_movie'][0]}}') };
+     document.getElementById("btn2").onclick = function () { b2('{{data['reco_movie'][0]}}') };
+     document.getElementById("btn3").onclick = function () { b3('{{data['reco_movie'][0]}}') };
+     document.getElementById("search").onclick = function () {
+       var name = document.getElementById("movie_name").value;
+       pre = pre.concat(name);
+       document.getElementById("movie_name").value=pre;
+       document.getElementById("a").style.display = "none";
+       document.getElementById("details1").style.display = "none";
+       document.getElementsByClassName("footer").display="none";
+       document.getElmentById("gif").style.display = "block";
+     }
+     </script>
   <div id="footer">
     <a href="https://github.com/abhishekvardhan/movie-recommendation-sytem" class="header-buttons"
       data-bs-toggle="tooltip" data-bs-placement="bottom" title="Licence"

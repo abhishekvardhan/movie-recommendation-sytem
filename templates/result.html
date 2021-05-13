@@ -268,8 +268,8 @@
     <img src="{{ url_for('static',filename=data['d1']['poster']) }}" alt="poster"
       style="width:280px;height:420px;float:right;padding:25px;margin-left:15px;margin-right:85px">
     <br><br>
-    <h1 style="color:black;font-family:Monaco;text-align:left;"><strong>{{data['d1']['title']}}</strong></h1><br>
-    <h6 style="color:black;font-family:Monaco;text-align:left;">Directed by : {{data['d1']['director']}} <svg
+    <h1 style="color:rgb(255, 255, 255);font-family:Monaco;text-align:left;"><strong>{{data['d1']['title']}}</strong></h1><br>
+    <h6 style="color:rgb(255, 255, 255);font-family:Monaco;text-align:left;">Directed by : {{data['d1']['director']}} <svg
         xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bullseye"
         viewBox="0 0 16 16">
         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
@@ -284,14 +284,14 @@
         <path d="M9.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
       </svg> Rating : {{data['d1']['vote_average']}} ({{data['vote_count']}})</h6><br>
     <p style="color:rgb(238, 61, 61);text-align:left;">{{data['d1']['desc']}}</p>
-    <p style="color:rgb(24, 13, 119);text-align:left;">Original Language : {{data['d1']['lang']}}</p>
-    <p style="color:rgb(21, 23, 128);text-align:left;">Release Date : {{data['d1']['release_date']}}</p>
-    <p style="color:rgb(30, 52, 124);text-align:left;"> Production Company : {{data['d1']['production_comp']}}</p>
+    <p style="color:rgb(106, 93, 223);text-align:left;">Original Language : {{data['d1']['lang']}}</p>
+    <p style="color:rgb(87, 88, 190);text-align:left;">Release Date : {{data['d1']['release_date']}}</p>
+    <p style="color:rgb(75, 102, 190);text-align:left;"> Production Company : {{data['d1']['production_comp']}}</p>
   </div>
   <br>
   <br>
   <div class="result" id="castfo">
-    <h2 style="text-align:left;color:black;"><strong>Cast</strong></h2><br><br>
+    <h2 style="text-align:left;color:rgb(241, 241, 241);"><strong>Cast</strong></h2><br><br>
     {% for j in range(2) %}
     <div class="row">
       {% for i in range(3) %}
@@ -311,7 +311,7 @@
   </div>
   <br> <br>
   <div class="result" id="recos">
-    <h2 style="text-align:left;color:Black;"><strong>Recommendations</strong></h2><br><br>
+    <h2 style="text-align:left;color:rgb(255, 255, 255);"><strong>Recommendations</strong></h2><br><br>
     {% for j in range(2) %}
     <div class="row">
       {% for i in range(5) %}
@@ -333,7 +333,7 @@
     {% endfor %}
   </div><br><br>
   <div class="result" id="senti">
-    <h2 style="text-align:left;color:Black;"><strong>Recommendations</strong></h2><br><br>
+    <h2 style="text-align:left;color:rgb(255, 255, 255);"><strong>Reviews</strong></h2><br><br>
     <table class="table table-success table-striped">
       <th>
         Author
