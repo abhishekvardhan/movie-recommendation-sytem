@@ -227,7 +227,6 @@
       <p style="color:rgb(207, 207, 154);text-align:left;">Parent Company : {{data['parent_company']}}</p>
         <p style="color:rgb(207, 207, 154);text-align:left;"><a href={{data['homepage']}}>Visit Official Site</a></p>
       </div>
-  </div>
   <div class="result" id="recos">
     <br><br> <h2 style="text-align:left;color:rgb(255, 255, 255);"><strong>Movies By {{data['name']}}</strong></h2><br><br>
      <div class="row">
@@ -246,6 +245,7 @@
        </div>
        {% endfor %}
      </div><br>
+     </div>
      <br><br>
      <script type="text/javascript" src="static/AutoSuggest.js"></script>
      <script type="text/javascript" src="static/search.js"></script>
@@ -290,8 +290,8 @@
        document.getElementById("movie_name").value=pre;
        document.getElementById("a").style.display = "none";
        document.getElementById("details1").style.display = "none";
-       document.getElementsByClassName("footer").display="none";
        document.getElementsById("recos").style.display="none";
+       document.getElementsByClassName("footer").style.display="none";
        document.getElmentById("gif").style.display = "block";
      }
      </script>
