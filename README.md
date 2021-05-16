@@ -13,7 +13,7 @@ Create an account in https://www.themoviedb.org/, click on the `API` link from t
 This type of metric is used to compute the similarity textual data. We convert these textual data in the form of vectors and check for cosine angle between those two vectors if the angle between them is 0. It means they are similar or else they are not. Most used similarity measures when we talk about the similarity between any textual content.
 More about Cosine Similarity : [Understanding the Math behind Cosine Similarity](https://www.machinelearningplus.com/nlp/cosine-similarity/)
 #### project 
-![Watch the video](https://youtu.be/o2Bp61PSqSI)
+[Watch the video](https://youtu.be/o2Bp61PSqSI)
 #### Sources of the datasets 
 
 1. [IMDB 5000 Movie Dataset](https://www.kaggle.com/carolzhangdc/imdb-5000-movie-dataset)
