@@ -186,13 +186,11 @@
     </div>
   </div>
   <div class="textbox" id="a">
-    <form action="/predict" method='POST'>
+    <form action="/predict" method='POST' id="frm">
       <div class="textbox" id="a">
         <div class="btn-group">
           <button style="background-color:rgb(172, 165, 165);font-size:18px;border:none;border-radius:3px" type="button"
-            data-bs-toggle="dropdown" aria-expanded="false" id="Link">
-            Search By
-          </button>
+            data-bs-toggle="dropdown" aria-expanded="false" id="Link">Search By</button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" onclick="setMovie()"> By Movie Names </a></li>
             <li><a class="dropdown-item" onclick="setActor()"> By Actor </a></li>
@@ -205,12 +203,11 @@
           <input type="text" name="movie_name" id="movie_name" placeholder="Search for a movie" size=45
             autocomplete="off" style="font-size:20px; color:black; opacity:0.8 ;border-color:black;border-radius: 3px;">
         </div><br><br>
-        <input type="submit" id="search" value="Search"
+        <input type="button" id="search" value="Search"
           style="background-color:rgb(172, 165, 165);font-size: 20px;border: none;border-radius: 3px;">
     </form>
   </div>
-
-
+  <div class="result" id="result1" style="color:red"></div>
   <div class="result" style="color:aliceblue" id="details1">
     <img src="{{ url_for('static',filename=data['poster']) }}" alt="poster"
       style="width:280px;height:420px;float:right;padding:25px;margin-left:15px;margin-right:85px">
@@ -283,15 +280,20 @@
      document.getElementById("btn2").onclick = function () { b2('{{data['reco_movie'][0]}}') };
      document.getElementById("btn3").onclick = function () { b3('{{data['reco_movie'][0]}}') };
      document.getElementById("search").onclick = function () {
-       var name = document.getElementById("movie_name").value;
-       pre = pre.concat(name);
-       document.getElementById("movie_name").value=pre;
-       document.getElementById("a").style.display = "none";
-       document.getElementById("details1").style.display = "none";
-       document.getElementsByClassName("footer").display="none";
-       document.getElementsById("recos").display="none";
-       document.getElmentById("gif").style.display = "block";
-     }
+      var dat = document.getElementById("Link").innerHTML;
+      var name = document.getElementById("movie_name").value;
+      if(dat == 'Search By')
+      {
+        document.getElementById('result1').innerHTML='*Please Select An Option';
+      }
+      else{
+      pre = pre.concat(name);
+      document.getElementById("movie_name").value=pre;
+      document.getElementById("frm").submit();
+      document.getElementById("a").style.display = "none";
+      document.getElementsByClassName("footer").display="none";
+      document.getElementById("gif").style.display = "block";
+    }}
      </script>
   <div id="footer">
     <a href="https://github.com/abhishekvardhan/movie-recommendation-sytem" class="header-buttons"

@@ -75,13 +75,11 @@
       <span class="text-muted"></span>
     </div>
   </div>
-  <form action="/predict" method='POST'>
+  <form action="/predict" method='POST' id="frm">
     <div class="textbox" id="a">
       <div class="btn-group">
         <button style="background-color:rgb(172, 165, 165);font-size:18px;border:none;border-radius:3px" type="button"
-            data-bs-toggle="dropdown" aria-expanded="false" id="Link">
-            Search By
-          </button>
+            data-bs-toggle="dropdown" aria-expanded="false" id="Link">Search By</button>
         <ul class="dropdown-menu">
           <li><a class="dropdown-item" onclick="setMovie()"> By Movie Names </a></li>
           <li><a class="dropdown-item" onclick="setActor()"> By Actor </a></li>
@@ -94,13 +92,13 @@
         <input type="text" name="movie_name" id="movie_name" placeholder="Search for a movie" size=45
           autocomplete="off" style="font-size:20px; color:rgb(0, 0, 0); opacity:0.8 ;border-color:black;border-radius: 3px;">
       </div><br><br>
-      <input type="submit" id="search" value="Search"
+      <input type="button" id="search" value="Search"
         style="background-color:rgb(172, 165, 165);font-size: 20px;border: none;border-radius: 3px;">
-      </form>
+      
+     </form>
   
-  <div id="result1" name="result" style="visibility:visible">
-  </div>
-  </div>
+  <div id="result1" class="result" style="visibility:visible;color:red;">
+  </div></div>
   <script type="text/javascript" src="static/AutoSuggest.js"></script>
   <script type="text/javascript" src="static/search.js"></script>
   <script>
@@ -134,14 +132,20 @@
       }
     }
     document.getElementById("search").onclick = function () {
+      var dat = document.getElementById("Link").innerHTML;
       var name = document.getElementById("movie_name").value;
+      if(dat == 'Search By')
+      {
+        document.getElementById('result1').innerHTML='*Please Select An Option';
+      }
+      else{
       pre = pre.concat(name);
       document.getElementById("movie_name").value=pre;
+      document.getElementById("frm").submit();
       document.getElementById("a").style.display = "none";
       document.getElementsByClassName("footer").display="none";
-      document.getElementsByClassName("recos").display="none";
       document.getElementById("gif").style.display = "block";
-    }
+    }}
   </script>
 <footer>
   <a href="https://github.com/abhishekvardhan/movie-recommendation-sytem" class="header-buttons"
