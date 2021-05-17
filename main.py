@@ -21,6 +21,9 @@ def add_header(response):
 @app.route('/')
 def index():
     movies = getmovies()
+    actorname=get_actornames(df)
+    directorname=get_directornames(df)
+    productionname=get_productionnames(df)
     return render_template("index.html", movies=movies, actors=actorname, prod=productionname, director=directorname)
 
 
