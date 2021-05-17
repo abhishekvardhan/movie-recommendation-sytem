@@ -57,6 +57,10 @@ def predict():
        gen=get_genres(data['id'])
        data=format_dat(er,data,k,cst,a,direc1,gen)
        movies=getmovies()
+       df=pd.read_csv("temp1.csv")
+       actorname=get_actornames(df)
+       directorname=get_directornames(df)
+       productionname=get_productionnames(df)
        return render_template("result.html" ,data=data ,l=list(res['Title']),movies=movies,actors=actorname,prod=productionname,director=directorname)
     if m[0]== 'actor':
         m=m[1]
@@ -72,6 +76,10 @@ def predict():
             rec.append(a)
             w+=1
         x['profile']=rec
+        df=pd.read_csv("temp1.csv")
+        actorname=get_actornames(df)
+        directorname=get_directornames(df)
+        productionname=get_productionnames(df)
         return render_template("actor.html",data=x,movies=movies,actors=actorname,prod=productionname,director=directorname)
     if m[0]== 'prod':
         m=m[1]
@@ -87,6 +95,10 @@ def predict():
             rec.append(a)
             w+=1
         x['profile']=rec
+        df=pd.read_csv("temp1.csv")
+        actorname=get_actornames(df)
+        directorname=get_directornames(df)
+        productionname=get_productionnames(df)
         return render_template("prod.html",data=x,movies=movies,actors=actorname,prod=productionname,director=directorname)
     if m[0]=='dir':
         m=m[1]
@@ -102,7 +114,11 @@ def predict():
             rec.append(a)
             w+=1
         x['profile']=rec
+        df=pd.read_csv("temp1.csv")
         movies=getmovies()
+        actorname=get_actornames(df)
+        directorname=get_directornames(df)
+        productionname=get_productionnames(df)
         return render_template("director.html",data=x,movies=movies,actors=actorname,prod=productionname,director=directorname)
 
 def compute_cosine(a):
