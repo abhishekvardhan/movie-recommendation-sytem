@@ -20,7 +20,7 @@ def add_header(response):
 
 @app.route('/')
 def index():
-    df=pd.read_csv("temp1");
+    df=pd.read_csv("temp1.csv");
     movies = getmovies()
     actorname=get_actornames(df)
     directorname=get_directornames(df)
