@@ -22,4 +22,13 @@ More about Cosine Similarity : [Understanding the Math behind Cosine Similarity]
 4. [List of movies in 2019](https://en.wikipedia.org/wiki/List_of_American_films_of_2019)
 5. [List of movies in 2020](https://en.wikipedia.org/wiki/List_of_American_films_of_2020)
 
-![Demo](https://github.com/abhishekvardhan/movie-recommendation-sytem)
+## How To Use Our Application
+ # To Search For Movie
+   ![Demo](https://user-images.githubusercontent.com/42744555/118606312-e05be280-b7d4-11eb-9b4a-4f02f8160ee1.mp4)
+   
+ # To Search for an Actor 
+  ![Video2](https://user-images.githubusercontent.com/42744555/118606420-04b7bf00-b7d5-11eb-8749-4586f8a4ec7b.mp4)
+   
+  *Similarly you can search for Production Companies and Directors.
+
+
