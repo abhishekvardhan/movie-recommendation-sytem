@@ -3,7 +3,7 @@ function b0(d) {
         var a="movie~";
         d=a.concat(d);
         document.getElementById("movie_name").value = d;
-        document.getElementById("search").click();
+        document.getElementById("frm").submit();
     }
 }
 function b1(d) {
@@ -11,7 +11,7 @@ function b1(d) {
         var a="movie~";
         d=a.concat(d);
         document.getElementById("movie_name").value = d;
-        document.getElementById("search").click();
+        document.getElementById("frm").submit();
     }
 }
 function b2(d) {
@@ -19,7 +19,7 @@ function b2(d) {
         var a="movie~";
         d=a.concat(d);
         document.getElementById("movie_name").value = d;
-        document.getElementById("search").click();
+        document.getElementById("frm").submit();
     }
 }
 function b3(d) {
@@ -27,7 +27,7 @@ function b3(d) {
         var a="movie~";
         d=a.concat(d);
         document.getElementById("movie_name").value = d;
-        document.getElementById("search").click();
+        document.getElementById("frm").submit();
     }
 }
 function b4(d) {
@@ -35,7 +35,7 @@ function b4(d) {
         var a="movie~";
         d=a.concat(d);
         document.getElementById("movie_name").value = d;
-        document.getElementById("search").click();
+        document.getElementById("frm").submit();
     }
 }
 function b5(d) {
@@ -43,7 +43,7 @@ function b5(d) {
         var a="movie~";
         d=a.concat(d);
         document.getElementById("movie_name").value = d;
-        document.getElementById("search").click();
+        document.getElementById("frm").submit();
     }
 }
 function b6(d) {
@@ -51,7 +51,7 @@ function b6(d) {
         var a="movie~";
         d=a.concat(d);
         document.getElementById("movie_name").value = d;
-        document.getElementById("search").click();
+        document.getElementById("frm").submit();
     }
 }
 function b7(d) {
@@ -59,7 +59,7 @@ function b7(d) {
         var a="movie~";
         d=a.concat(d);
         document.getElementById("movie_name").value = d;
-        document.getElementById("search").click();
+        document.getElementById("frm").submit();
     }
 }
 function b8(d) {
@@ -67,7 +67,7 @@ function b8(d) {
         var a="movie~";
         d=a.concat(d);
         document.getElementById("movie_name").value = d;
-        document.getElementById("search").click();
+        document.getElementById("frm").submit();
     }
 }
 function b9(d) {
@@ -75,6 +75,6 @@ function b9(d) {
         var a="movie~";
         d=a.concat(d);
         document.getElementById("movie_name").value = d;
-        document.getElementById("search").click();
+        document.getElementById("frm").submit();
     }
 }
